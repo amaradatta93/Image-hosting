@@ -1,0 +1,13 @@
+<form name="form" enctype="multipart/form-data" action="{% url 'hoisting:upload' %}" method="POST">
+    {% csrf_token %}
+    <div>
+        <input type="file" placeholder="Photo" name="photo"/>
+    </div>
+    <br>
+    <label for="private">Make it private</label><input type="checkbox" id="private" name="private"/>
+    <div>
+        <button type="submit" value="Upload">
+            <strong>Upload</strong>
+        </button>
+    </div>
+</form>

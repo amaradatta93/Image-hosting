@@ -1,0 +1,14 @@
+<html>
+<body>
+    {% if saved %}
+        <strong>Your profile was saved.</strong>
+        <a href="/images/get/{{ id }}">Click here for a permanent link to your image (unique URL)</a>
+    {% endif %}
+
+    {% if not saved %}
+        <strong>Your profile was not saved.</strong>
+    {% endif %}
+
+    <a href="/">Go back to the dashboard</a>
+</body>
+</html>

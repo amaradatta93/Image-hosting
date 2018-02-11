@@ -1,0 +1,14 @@
+<a href="{% url 'dashboard:add_image' %}">Add a new image</a>
+<table>
+    {% for i in images %}
+    <tr>
+        <td>{{ i.pk }}</td>
+        <td>{{ i.uploaded_at }}</td>
+        <td>{{ i.width }} x {{ i.length }}</td>
+        <td><a href="{% url 'hoisting:image_by_id' i.pk %}">
+            <img src="{% url 'hoisting:image_by_id' i.pk %}" width="10%"/></a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
