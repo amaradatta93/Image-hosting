@@ -2,7 +2,7 @@
 <body>
     {% if saved %}
         <strong>Your profile was saved.</strong>
-        <a href="/images/get/{{ id }}">Click here for a permanent link to your image (unique URL)</a>
+        <a href="{% url 'hoisting:image_by_id' id %}">Click here for a permanent link to your image (unique URL)</a>
     {% endif %}
 
     {% if not saved %}

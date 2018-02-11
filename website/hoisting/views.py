@@ -1,12 +1,11 @@
 from django.core.files.images import get_image_dimensions
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
+from django.utils.six import StringIO
+
 from .forms import ImageForm
 from .models import Image
-from logging import getLogger
-
-logger = getLogger(__name__)
-
+from PIL import Image as PIL
 
 def save_image(request):
     saved = False
@@ -23,12 +22,12 @@ def save_image(request):
             width, height = get_image_dimensions(image.photo)
             image.width = width
             image.length = height
-            image.private = image_form.cleaned_data['private']
+            image.private = image_form.cleaned_data['private'] or False
             image.save()
-            logger.info("Saved image")
             saved = True
         else:
-            logger.error("Unable to valid form")
+            print "Not validated"
+            print image_form
 
     return render(request, 'saved.html', {'saved': saved, 'id': image.pk if image else None})
 
@@ -37,10 +36,18 @@ def get_image_by_resolution(request, width, height):
     """
     Find all the images in the database with this width x height and choose one of those images, and render that image
     """
-    image = Image.objects.filter(width=width, height=height).first()
-
-    # if image exists, render template with the image. otherwise, 404
-    pass
+    image = Image.objects.filter(width=width, length=height).order_by('uploaded_at').first()
+    if not image:
+        image = Image.objects.all().extra(select={'pixels': 'abs(width - %s) * abs(length - %s)'}, select_params=(int(width), int(height))).order_by('pixels').first()
+        if not image:
+            raise Http404()
+        else:
+            resized = PIL.open(image.photo).resize((int(width), int(height)), PIL.LANCZOS)
+            response = HttpResponse(content_type="image/png")
+            resized.save(response, "PNG")
+            return response
+    else:
+        return HttpResponse(image.photo, content_type='image/jpeg')
 
 
 def get_image_by_id(request, id):
