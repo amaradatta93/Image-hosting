@@ -1,22 +1,19 @@
+from PIL import Image as PIL
 from django.core.files.images import get_image_dimensions
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
-from django.utils.six import StringIO
 
 from .forms import ImageForm
 from .models import Image
-from PIL import Image as PIL
+
 
 def save_image(request):
     saved = False
     image = None
     if request.method == "POST":
-        # Get the posted form
         image_form = ImageForm(request.POST, request.FILES)
 
         if image_form.is_valid():
-            # logger.info("Validated form")
-            print "Validated form"
             image = Image()
             image.photo = image_form.cleaned_data["photo"]
             width, height = get_image_dimensions(image.photo)
@@ -25,9 +22,6 @@ def save_image(request):
             image.private = image_form.cleaned_data['private'] or False
             image.save()
             saved = True
-        else:
-            print "Not validated"
-            print image_form
 
     return render(request, 'saved.html', {'saved': saved, 'id': image.pk if image else None})
 
@@ -38,7 +32,8 @@ def get_image_by_resolution(request, width, height):
     """
     image = Image.objects.filter(width=width, length=height).order_by('uploaded_at').first()
     if not image:
-        image = Image.objects.all().extra(select={'pixels': 'abs(width - %s) * abs(length - %s)'}, select_params=(int(width), int(height))).order_by('pixels').first()
+        image = Image.objects.all().extra(select={'pixels': 'abs(width - %s) * abs(length - %s)'},
+                                          select_params=(int(width), int(height))).order_by('pixels').first()
         if not image:
             raise Http404()
         else:
