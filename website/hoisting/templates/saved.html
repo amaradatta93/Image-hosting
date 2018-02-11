@@ -1,14 +1,18 @@
-<html>
-<body>
-{% if saved %}
-<strong>Your profile was saved.</strong>
-<a href="{% url 'hoisting:image_by_id' id %}">Click here for a permanent link to your image (unique URL)</a>
-{% endif %}
+{% extends 'base.html' %}
+{% block content %}
+<div class="row h-100 align-items-center">
+    <div class="col-lg-6">
+        {% if saved %}
+        <strong>Your profile was saved.</strong>
+        <a href="{% url 'hoisting:image_by_id' id %}">Click here for a permanent link to your image (unique URL)</a>
+        {% endif %}
 
-{% if not saved %}
-<strong>Your profile was not saved.</strong>
-{% endif %}
-
-<a href="/">Go back to the dashboard</a>
-</body>
-</html>
+        {% if not saved %}
+        <strong>Your profile was not saved.</strong>
+        {% endif %}
+    </div>
+    <div class="col-lg-6">
+        <a href="/">Go back to the dashboard</a>
+    </div>
+</div>
+{% endblock %}

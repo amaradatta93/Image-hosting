@@ -1,14 +1,20 @@
-<a href="{% url 'dashboard:add_image' %}">Add a new image</a>
-<table>
-    {% for i in images %}
-    <tr>
-        <td>{{ i.pk }}</td>
-        <td>{{ i.uploaded_at }}</td>
-        <td>{{ i.width }} x {{ i.length }}</td>
-        <td><a href="{% url 'hoisting:image_by_id' i.pk %}">
-            <img src="{% url 'hoisting:image_by_id' i.pk %}" width="10%"/></a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+{% extends 'base.html' %}
 
+{% block content %}
+<div class="row h-100">
+    <div class="col-lg-12 mt-3">
+            <a class="btn btn-success" href="{% url 'dashboard:add_image' %}"><i class="fa fa-plus"></i> Add a new image</a>
+    </div>
+    {% for i in images %}
+    <div class="col-lg-3">
+        <div class="card">
+            <img class="card-img-top" src="{% url 'hoisting:image_by_id' i.pk %}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ i.width }} x {{ i.length }} : {{ i.uploaded_at }}</h5>
+                <a href="{% url 'hoisting:image_by_id' i.pk %}" class="btn btn-primary">Permanent link</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
