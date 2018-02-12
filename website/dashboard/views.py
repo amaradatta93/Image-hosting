@@ -12,7 +12,4 @@ def dashboard(request):
     """
     images = Image.objects.filter(private=False).order_by('-uploaded_at')[:50]
 
-    if not images:
-        raise Http404()
-
     return render(request, 'dashboard.html', {'images': images})

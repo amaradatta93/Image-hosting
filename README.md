@@ -8,7 +8,7 @@ Image Hosting - Web
 5. Install requirements: `pip install -r requirements.txt`
 
 # Run the project (from the `Useindio/website` directory)
-6. `python manage.py makemigrations`
-7. `python manage.py migrate`
-8. `python manage.py runserver`
+6. `python manage.py makemigrations --settings=website.config.dev`
+7. `python manage.py migrate --settings=website.config.dev`
+8. `python manage.py runserver --settings=website.config.dev`
 9. Browse to http://localhost:8000/

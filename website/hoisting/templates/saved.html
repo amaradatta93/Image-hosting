@@ -3,16 +3,14 @@
 <div class="row h-100 align-items-center">
     <div class="col-lg-6">
         {% if saved %}
-        <strong>Your profile was saved.</strong>
-        <a href="{% url 'hoisting:image_by_id' id %}">Click here for a permanent link to your image (unique URL)</a>
+        <p><strong>Your profile was saved.</strong></p>
+        <p><a href="{% url 'hoisting:image_by_id' id %}">Click here for a permanent link to your image (unique URL)</a></p>
         {% endif %}
 
         {% if not saved %}
-        <strong>Your profile was not saved.</strong>
+        <p><strong>Your profile was not saved.</strong></p>
         {% endif %}
-    </div>
-    <div class="col-lg-6">
-        <a href="/">Go back to the dashboard</a>
+        <p><a class="btn btn-primary" href="/"><i class="fa fa-chevron-left"></i> Go back to the dashboard</a></p>
     </div>
 </div>
 {% endblock %}
