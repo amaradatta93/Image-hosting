@@ -21,10 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'r(y*qlz4t@bv9uxueucjh^e@d-ys!q3be#)3-lg$7vv#atqll!'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'sleepy-ravine-12802.herokuapp.com',
+]
 
 # Application definition
 
