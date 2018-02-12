@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="row h-100 align-items-center">
-    <div class="col-lg-6">
+<div class="row h-100 align-items-center justify-content-center" style="text-align: center;">
+    <div class="col-lg-12">
         {% if saved %}
         <p><strong>Your profile was saved.</strong></p>
-        <p><a href="{% url 'hoisting:image_by_id' id %}">Click here for a permanent link to your image (unique URL)</a></p>
+        <p><a class="btn btn-success" href="{% url 'hoisting:image_by_id' id %}"><i class="fa fa-link"></i> Permanent link to your image (unique URL)</a></p>
         {% endif %}
 
         {% if not saved %}

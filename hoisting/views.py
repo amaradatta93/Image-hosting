@@ -30,10 +30,17 @@ def get_image_by_resolution(request, width, height):
     """
     Find all the images in the database with this width x height and choose one of those images, and render that image
     """
+
+    # First try to find an image with the exact resolution, and choose the earliest one
     image = Image.objects.filter(width=width, length=height).order_by('uploaded_at').first()
+
+    # If there is no image with the exact resolution, find the image with closest resolution
     if not image:
+        # Order the image by area difference of the stored image compared to input resolution
         image = Image.objects.all().extra(select={'pixels': 'abs(width - %s) * abs(length - %s)'},
                                           select_params=(int(width), int(height))).order_by('pixels').first()
+
+        # If an image exists, resize and render the image as PNG
         if not image:
             raise Http404()
         else:
@@ -48,7 +55,6 @@ def get_image_by_resolution(request, width, height):
 def get_image_by_id(request, id):
     """
     Find an image with this ID in the database and return the image, otherwise 404
-    :return:
     """
     image = get_object_or_404(Image, pk=id)
     return HttpResponse(image.photo, content_type='image/jpeg')

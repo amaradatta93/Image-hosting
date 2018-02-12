@@ -23,6 +23,8 @@ SECRET_KEY = 'r(y*qlz4t@bv9uxueucjh^e@d-ys!q3be#)3-lg$7vv#atqll!'
 
 ALLOWED_HOSTS = [
     'sleepy-ravine-12802.herokuapp.com',
+    'localhost',
+    '127.0.0.1'
 ]
 
 # Application definition
