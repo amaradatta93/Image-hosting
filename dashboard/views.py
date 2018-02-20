@@ -10,5 +10,7 @@ def dashboard(request):
     and displays in a template for the home page.
     Also has a button to take you to the "add" page
     """
-    images = Image.objects.filter(private=False).annotate(total_vote=Count("vote")).order_by('-total_vote')[:50]
+    sort = request.GET.get("sort", "total_vote")
+    sort = "-" + (sort if sort in ['total_vote', 'uploaded_at'] else "total_vote")
+    images = Image.objects.filter(private=False).annotate(total_vote=Count("vote")).order_by(sort)[:50]
     return render(request, 'dashboard.html', {'images': images})

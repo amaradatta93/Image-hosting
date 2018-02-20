@@ -1,14 +1,14 @@
 from PIL import Image as PIL
+from django.contrib import messages
 from django.core.files.images import get_image_dimensions
+from django.db import IntegrityError
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.decorators.csrf import csrf_exempt
+from ipware import get_client_ip
 
 from .forms import ImageForm
 from .models import Image
 from .models import Vote
-from django.db.models import Count
-
 
 
 def save_image(request):
@@ -66,9 +66,15 @@ def get_image_by_id(request, id):
 
 def add_vote(request, id):
     if request.method == "POST":
-        image_id = get_object_or_404(Image, pk=id)
-        vote = Vote()
-        vote.image_vote = image_id
-        vote.save()
-        return redirect("/")
+        image = get_object_or_404(Image, pk=id)
 
+        ip, is_routable = get_client_ip(request)
+
+        vote = Vote()
+        vote.image_vote = image
+        vote.ip = ip
+        try:
+            vote.save()
+        except IntegrityError:
+            messages.error(request, 'You already voted for this.')
+        return redirect("/")

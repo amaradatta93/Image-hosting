@@ -11,3 +11,7 @@ class Image(models.Model):
 
 class Vote(models.Model):
     image_vote = models.ForeignKey(Image, on_delete=models.CASCADE)
+    ip = models.GenericIPAddressField(null=False)
+
+    class Meta:
+        unique_together = ('image_vote', 'ip')
