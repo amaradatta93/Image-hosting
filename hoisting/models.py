@@ -7,3 +7,7 @@ class Image(models.Model):
     width = models.IntegerField()
     length = models.IntegerField()
     private = models.BooleanField(default=False)
+
+
+class Vote(models.Model):
+    image_vote = models.ForeignKey(Image, on_delete=models.CASCADE)
