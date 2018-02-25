@@ -132,4 +132,3 @@ pip-selfcheck.json
 env/
 *.sqlite3
 photos/
-**migrations/
